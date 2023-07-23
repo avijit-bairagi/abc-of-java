@@ -10,6 +10,8 @@ public class User {
 
     private Date dateOfBirth;
 
+    private Double salary;
+
     public Integer getId() {
         return id;
     }
@@ -38,6 +40,24 @@ public class User {
         this.id = id;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public User(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public User(String name, Double salary) {
+        this.name = name;
+        this.salary = salary;
+    }
+
+    public Double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Double salary) {
+        this.salary = salary;
     }
 
     @Override
