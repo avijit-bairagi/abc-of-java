@@ -15,7 +15,9 @@ public class CompletableFutureTest {
     @Test
     void simpleCompletableFutureTest() {
 
-        //https://medium.com/javarevisited/java-completablefuture-c47ca8c885af
+        /**
+         https://medium.com/javarevisited/java-completablefuture-c47ca8c885af
+         */
 
         Supplier<String> task = () -> {
             SleepUtils.sleep(5);
@@ -35,13 +37,15 @@ public class CompletableFutureTest {
     @Test
     void acceptVsAcceptAsyncTest() {
 
-        //thenApply(fn) - runs fn on a thread defined by the CompletableFuture on which it is called,
-        // so you generally cannot know where this will be executed.
-        // It might immediately execute if the result is already available.
-        //thenApplyAsync(fn) - runs fn on a environment-defined executor regardless of circumstances.
-        // For CompletableFuture this will generally be ForkJoinPool.commonPool().
-        //thenApplyAsync(fn,exec) - runs fn on exec.
-        //In the end the result is the same, but the scheduling behavior depends on the choice of method.
+        /**
+         1. thenApply(fn) - runs fn on a thread defined by the CompletableFuture on which it is called,
+         so you generally cannot know where this will be executed.
+         It might immediately execute if the result is already available.
+         2. thenApplyAsync(fn) - runs fn on a environment-defined executor regardless of circumstances.
+         For CompletableFuture this will generally be ForkJoinPool.commonPool().
+         3. thenApplyAsync(fn,exec) - runs fn on exec.
+         In the end the result is the same, but the scheduling behavior depends on the choice of method.
+         */
 
         //accept
         CompletableFuture.supplyAsync(() -> {
@@ -96,16 +100,18 @@ public class CompletableFutureTest {
     @Test
     void acceptVsCombineVsComposeTest() {
 
-        //https://medium.com/@joshikeyur/apply-compose-and-combine-futures-71b76b3a1aae
+        /**
+         https://medium.com/@joshikeyur/apply-compose-and-combine-futures-71b76b3a1aae
 
-        //thenCombine: This method is used when both processes (CompletableFuture) can work independently
-        // and once both are done their results can be combined to get the final result.
+         1. thenCombine: This method is used when both processes (CompletableFuture) can work independently
+         and once both are done their results can be combined to get the final result.
 
-        //thenCompose: This method is used when one CompletableFuture is waiting for another CompletableFuture
-        // to provide its result. Once it is available result will be processed asynchronously.
+         2. thenCompose: This method is used when one CompletableFuture is waiting for another CompletableFuture
+         to provide its result. Once it is available result will be processed asynchronously.
 
-        //thenApply: This method is more or less same and thenCompose only difference
-        // it it will return the result instead of another CompletableFuture in its Lambda.
+         3. thenApply: This method is more or less same and thenCompose only difference
+         is it will return the result instead of another CompletableFuture in its Lambda.
+         */
 
         //accept
         CompletableFuture.supplyAsync(() -> "Hello")
