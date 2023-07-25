@@ -163,8 +163,6 @@ public class MapTest {
 
     @Test
     void internalOfHashMapTest() {
-        Map<?, ?> map = new HashMap<>();
-        System.out.println(map.);
     }
 
     static class Demo {
