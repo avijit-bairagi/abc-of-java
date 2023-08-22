@@ -1,11 +1,15 @@
 package com.ovi.abc;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class MapTest {
+
+    private static final Logger logger = LoggerFactory.getLogger(MapTest.class);
 
     @Test
     void simpleMap() {
@@ -147,7 +151,7 @@ public class MapTest {
     }
 
     @Test
-    void treeTableTest() {
+    void hashTableTest() {
         /**
          The java.util.Hashtable class is a class in Java that provides a key-value data structure,
          similar to the Map interface. It was part of the original Java Collections framework
@@ -163,6 +167,84 @@ public class MapTest {
 
     @Test
     void internalOfHashMapTest() {
+
+        /**
+         * @Info HashCode: returns an integer that represents the internal memory address of the object
+         * @Info Hash function:
+         * static final int hash(Object var0) {
+         *      int var1;
+         *      return var0 == null ? 0 : (var1 = var0.hashCode()) ^ var1 >>> 16;
+         * }
+         * @Info Get index no from hash value and map size
+         * index = hash & (n -1)
+         * @Info Map Node definition
+         * final int hash;
+         * final K key;
+         * V value;
+         * Node<K, V> next;
+         **/
+
+
+    }
+
+    @Test
+    void getAllInternalArchitecture() throws InterruptedException {
+
+        int n = 16;
+
+        Map<String, Integer> map = new HashMap<>();
+
+        map.put("Avijit", 1);
+        map.put("Bairagi", 2);
+        map.put("Zoro", 3);
+        map.put("Usap", 100000);
+        map.put("Nami", 5);
+        map.put("Kibria", 5);
+        map.put("Mammi", 5);
+
+
+        for (int i = 0; i < 100; i++) {
+            map.forEach((k, v) -> {
+
+                int hash = hash(k);
+                int index = index(hash, n);
+
+                logger.info("{} --> {}. hash: {}, index: {}", k, v, hash, index);
+            });
+            System.out.println("-------------------");
+            Thread.sleep(2000);
+        }
+    }
+
+    @Test
+    void getAllInternalArchitecture2() throws InterruptedException {
+
+        int n = 16;
+
+        Map<SampleKey, Integer> map = new HashMap<>();
+
+        map.put(new SampleKey(1L, "Avijit"), 1);
+        map.put(new SampleKey(2L, "Bairagi"), 2);
+        map.put(new SampleKey(3L, "Zoro"), 3);
+        map.put(new SampleKey(3L, "Zoro"), 3);
+        map.put(new SampleKey(4L, "Usap"), 100000);
+        map.put(new SampleKey(5L, "Nami"), 5);
+        map.put(new SampleKey(6L, "Kibria"), 5);
+        map.put(new SampleKey(7L, "Mammi"), 5);
+
+
+        for (int i = 0; i < 10; i++) {
+            map.forEach((k, v) -> {
+
+                int hash = hash(k);
+                int index = index(hash, n);
+
+                logger.info("{} --> {}. hash: {}, index: {}", k, v, hash, index);
+            });
+
+            System.out.println("-------------------");
+            Thread.sleep(2000);
+        }
     }
 
     static class Demo {
@@ -174,5 +256,42 @@ public class MapTest {
         protected void finalize() {
             System.out.println("finalized called.");
         }
+    }
+
+    private static class SampleKey {
+
+        private Long id;
+
+        private String value;
+
+        public SampleKey(Long id, String value) {
+            this.id = id;
+            this.value = value;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return "SampleKey{" +
+                    "id=" + id +
+                    ", value='" + value + '\'' +
+                    '}';
+        }
+    }
+
+    private int hash(Object var0) {
+        int var1;
+        return var0 == null ? 0 : (var1 = var0.hashCode()) ^ var1 >>> 16;
+    }
+
+    private int index(int hash, int n) {
+        return hash & (n - 1);
     }
 }
