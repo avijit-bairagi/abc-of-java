@@ -219,6 +219,10 @@ public class MapTest {
     @Test
     void getAllInternalArchitecture2() throws InterruptedException {
 
+        /**
+         * https://www.scaler.com/topics/java/hashmap-in-java/
+         **/
+
         int n = 16;
 
         Map<SampleKey, Integer> map = new HashMap<>();
